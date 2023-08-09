@@ -1,61 +1,35 @@
-namespace lab4_2
-{
-    public partial class Form1 : Form
-    {
-        public Form1()
-        {
-            InitializeComponent();
-        }
+def create_word_frequency_dict(filename):
+    word_frequency = {}
+    
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                words = line.split()
+                for word in words:
+                    # Remove punctuation and convert to lowercase
+                    word = word.strip(".,!?\"'()[]{}")
+                    word = word.lower()
+                    
+                    if word not in word_frequency:
+                        word_frequency[word] = 1
+                    else:
+                        word_frequency[word] += 1
+    except FileNotFoundError:
+        print(f"File '{filename}' not found.")
+    
+    return word_frequency
 
+def display_word_frequency(word_frequency):
+    for word, count in word_frequency.items():
+        print(f"'{word}': {count}")
 
+def main():
+    filename = input("Enter the name of the text file: ")
+    word_frequency = create_word_frequency_dict(filename)
+    
+    if word_frequency:
+        print("Word frequency:")
+        display_word_frequency(word_frequency)
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            double organisms;
-            double averageDailyIncrease;
-            double days;
-            if (double.TryParse(textBox1.Text, out organisms) &&
-                double.TryParse(textBox2.Text, out averageDailyIncrease) &&
-                double.TryParse(textBox3.Text, out days))
-            {
-                // add items to the text box
-                int counter = 1;
-                listBox1.Items.Add($"Day \t App. Population");
-                double sum = organisms;
-                while (counter <= days)
-                {
-                    listBox1.Items.Add($"{counter} \t {sum}");
-                    sum = sum * (1 + averageDailyIncrease / 100);
-                    counter++;
-                }
-
-            }
-            else
-            {
-                MessageBox.Show("Error in parsing ..");
-            }
-        }
-
-
-    }
-}
+if __name__ == "__main__":
+    main()
