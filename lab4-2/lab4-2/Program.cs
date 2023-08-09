@@ -1,3 +1,5 @@
+import re
+
 def is_prime(num):
     if num <= 1:
         return False
@@ -13,17 +15,9 @@ def is_prime(num):
     return True
 
 def display_prime_numbers(start):
-    print(f"Prime numbers greater than or equal to {start}:")
-    count = 0
-    num = start
-    while True:
-        if is_prime(num):
-            print(num, end=" ")
-            count += 1
-        if count == 10:  # Change this number to display a different count of prime numbers per line
-            print()       # Print a new line after displaying the specified count of prime numbers
-            count = 0
-        num += 1
+    primes = [str(num) for num in range(start, start + 1000) if is_prime(num)]
+    primes_str = " ".join(primes)
+    return primes_str
 
 if __name__ == "__main__":
     try:
@@ -31,6 +25,7 @@ if __name__ == "__main__":
         if n <= 1:
             print("Please enter an integer greater than 1.")
         else:
-            display_prime_numbers(n)
+            prime_numbers = display_prime_numbers(n)
+            print(f"Prime numbers greater than or equal to {n}:\n{prime_numbers}")
     except ValueError:
         print("Invalid input. Please enter a valid integer.")
